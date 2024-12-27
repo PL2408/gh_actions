@@ -1,12 +1,13 @@
 name: 01 - Building Blocks
 on:
-  workflow dispatch:
+  workflow_dispatch:
+
 jobs:
-  hello job:
-    runs: ubuntu latest
+  hello-job:
+    runs-on: ubuntu-latest
     steps:
       - run: echo "hello world!"
-  goodbye job:
-    runs: ubuntu latest
+  goodbye-job:
+    runs-on: ubuntu-latest
     steps:
       - run: echo "goodbye world"
