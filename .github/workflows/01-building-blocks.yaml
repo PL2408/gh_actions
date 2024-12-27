@@ -1,6 +1,6 @@
 name: 01 - Building Blocks
-on: push
-workflow dispatch:
+on:
+  workflow dispatch:
 jobs:
   hello job:
     runs: ubuntu latest
