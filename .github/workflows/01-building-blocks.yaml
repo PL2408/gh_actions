@@ -3,11 +3,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  hello-job:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "hello world!"
-  goodbye-job:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "goodbye world"
+#  hello-job:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: echo "hello world!"
+#  goodbye-job:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: echo "goodbye world"
+  - name: multi-line bash
+    run: |
+      echo "I am"
+      echo "a multi-line"
+      echo "script"
