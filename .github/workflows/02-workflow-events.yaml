@@ -1,6 +1,8 @@
 name: 02 - Workflow Events
 on:
-  push:
+#  push:
+ schedule:
+    - cron: '* * * * *'
 
 jobs:
   first-job:
