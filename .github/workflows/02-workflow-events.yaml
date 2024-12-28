@@ -1,13 +1,10 @@
 name: 02 - Workflow Events
 on:
-  schedule:
-    - cron: '* * * * *'
+  push:
 
 jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
       - name: Show the trigger
-        run: |
-          echo "Show the trigger"
-          date
+        run: echo "Show the trigger started by a(n) ${{ github.event_name }} event."
