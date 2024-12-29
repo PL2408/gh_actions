@@ -4,7 +4,7 @@ on:
 
 jobs:
   ubuntu-echo:
-    runs-on: ubuntu latest
+    runs-on: ubuntu-latest
     steps:
       - name: Show OS
         run: |
