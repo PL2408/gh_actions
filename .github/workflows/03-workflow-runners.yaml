@@ -4,7 +4,7 @@ on:
 
 jobs:
   os-echo:
-    runs-on: windows-latest
+    runs-on: macos-latest
     steps:
       - name: Show OS
         run: |
