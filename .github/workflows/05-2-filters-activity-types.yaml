@@ -1,7 +1,10 @@
 name: 05 - 1 - Event Filters and Activity
-on: pull_request
-types: closed
-branches: main
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
 jobs:
   echo:
     runs-on: ubuntu-latest
