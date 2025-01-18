@@ -1,5 +1,11 @@
 {
       "editor.fontFamily": "Consolas, 'Fira Code', monospace",
       "editor.tabSize": 6,
-      "editor.fontSize": 17
-}
+      "editor.fontSize": 17,
+      "yaml.format.enable": true,  // Увімкнути форматування для YAML
+      "yaml.format.yamlfmt": "/home/pt/go/bin/yamlfmt",  // Вказати правильний шлях до yamlfmt
+      "[yaml]": {
+          "editor.formatOnSave": true  // Форматувати при збереженні
+      }
+  }
+  
