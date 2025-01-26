@@ -14,15 +14,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build-status: ${{ steps.build.outputs.status }}
     steps:
       - name: Print GITHUB_OUTPUT path
         run:
           echo "$GITHUB_OUTPUT"
       - name: Build
         id: build
-        run: echo "status=${{ github.event.inputs.build-status }}" >> $GITHUB_OUTPUT
-    outputs:
-      build-status: ${{ steps.build.outputs.status }}
+        run: |
+          echo "$GITHUB_OUTPUT"
+          echo "status=${{ github.event.inputs.build-status }}" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest
