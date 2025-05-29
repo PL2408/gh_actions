@@ -1,6 +1,16 @@
 name: 04 = Using Actions
 
-on: workflow_dispatch
+on:
+  # Triggers the workflow on push events for the main branch
+  push:
+    branches:
+      - main
+  # Triggers the workflow on pull request events targeting the main branch
+  pull_request:
+    branches:
+      - main
+  # Allows manual triggering of the workflow from the GitHub Actions UI
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -15,7 +25,36 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+      # Cache node_modules to speed up workflow execution by restoring them from a previous run
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: 04-using-actions/react-app/node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version || '22.x' }}-${{ hashFiles('04-using-actions/react-app/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version || '22.x' }}-
+      # Install dependencies only if they were not restored from the cache
       - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
+        # working-directory is already set by defaults.run.working-directory for all run steps in this job
+      # Scan for known vulnerabilities in project dependencies
+      - name: Scan for Vulnerabilities
+        run: npm audit
+        working-directory: 04-using-actions/react-app # Explicitly set, though covered by job default
+      # Check code for linting errors using ESLint, as defined in package.json
+      - name: Run Lint Check
+        run: npm run lint
+        working-directory: 04-using-actions/react-app # Explicitly set
+      # Check code formatting using Prettier, as defined in package.json
+      - name: Run Formatting Check
+        run: npm run format:check
+        working-directory: 04-using-actions/react-app # Explicitly set
+      # Run unit tests to ensure code quality and functionality
       - name: Run Unit Tests
         run: npm run test
+      # Build the React application for production
+      - name: Build Application
+        run: npm run build
+        working-directory: 04-using-actions/react-app # Explicitly set, confirming build context
