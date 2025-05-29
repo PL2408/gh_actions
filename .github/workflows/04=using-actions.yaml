@@ -1,6 +1,13 @@
 name: 04 = Using Actions
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -8,14 +15,40 @@ jobs:
     defaults:
       run:
         working-directory: 04-using-actions/react-app
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: 04-using-actions/react-app/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('04-using-actions/react-app/package-lock.json') }}
+
       - name: Install Dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
+
+      - name: Run Lint Check
+        run: npm run lint
+
+      - name: Run Formatting Check
+        run: npm run format:check
+
       - name: Run Unit Tests
         run: npm run test
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Scan for Vulnerabilities
+        run: npm audit || echo "Audit failed — see report above"
+        continue-on-error: true
+
